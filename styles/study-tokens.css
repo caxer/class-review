@@ -1,0 +1,39 @@
+/* Shared warm ivory / muted sage palette for maintenance, review and extra lessons. */
+.ui-icon { display:inline-block; width:18px; height:18px; flex:none; vertical-align:middle; stroke-width:1.75; }
+:root {
+  color-scheme: light;
+  --bg: #eceee7; --dot: transparent; --paper: #f6f5ed;
+  --ink: #303a34; --muted: #626d65; --line: #cbd2c6;
+  --accent: #3f6b58; --accent-ink: #f6f5ed; --accent-soft: #e1e9de;
+  --sun: #b98b46; --sun-soft: #efe6d1; --amber: #80612d;
+  --red: #974c46; --red-soft: #f0e0da; --green: #486b47; --green-soft: #e2e9da;
+  --violet: #6c5c79; --violet-soft: #e9e3eb;
+  --zh: #86583f; --zh-soft: #eee2d6; --en: #3f6b58; --en-soft: #e1e9de;
+  --math: #4b687b; --math-soft: #e0e7e9; --mixed: #80612d; --mixed-soft: #efe6d1;
+  --font-ui: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+  --font-en: "Andika", "Huninn", "Microsoft JhengHei", system-ui, sans-serif;
+  --teal: var(--accent); --teal-dark: #345846; --mint: var(--accent-soft);
+  --yellow: #d4bd84; --coral: var(--red); --cream: var(--bg); --orange: #936247;
+  --font-hand: "Iansui", "Huninn", "DFKai-SB", serif;
+  --shadow: 0 1px 2px #303a3405; --r-card: 6px; --r-btn: 4px;
+  --space-control:8px; --space-content:12px; --space-section:16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark; --bg:#1d2622; --paper:#26322c; --ink:#e1e5d9; --muted:#a9b5aa; --line:#44534a;
+    --accent:#a1c5ad; --accent-ink:#20362a; --accent-soft:#344c3d;
+    --sun:#cfb07a; --sun-soft:#493e2d; --amber:#cfb07a;
+    --red:#d5a29a; --red-soft:#493730; --green:#b1c49a; --green-soft:#36452f;
+    --violet:#beb0cb; --violet-soft:#403b49; --teal-dark:var(--accent);
+    --zh:#d3ae90; --zh-soft:#473c30; --en:#a1c5ad; --en-soft:#344c3d;
+    --math:#a8bcc9; --math-soft:#34454e; --mixed:var(--amber); --mixed-soft:var(--sun-soft);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme:dark; --bg:#1d2622; --paper:#26322c; --ink:#e1e5d9; --muted:#a9b5aa; --line:#44534a;
+  --accent:#a1c5ad; --accent-ink:#20362a; --accent-soft:#344c3d; --teal-dark:var(--accent);
+  --sun:#cfb07a; --sun-soft:#493e2d; --amber:#cfb07a; --red:#d5a29a; --red-soft:#493730;
+  --green:#b1c49a; --green-soft:#36452f; --violet:#beb0cb; --violet-soft:#403b49;
+  --zh:#d3ae90; --zh-soft:#473c30; --en:#a1c5ad; --en-soft:#344c3d;
+  --math:#a8bcc9; --math-soft:#34454e; --mixed:var(--amber); --mixed-soft:var(--sun-soft);
+}

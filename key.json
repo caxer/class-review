@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "user": {
+    "v": 1,
+    "kdf": "PBKDF2-SHA256",
+    "iterations": 600000,
+    "salt": "RoPyuSI/+lJGftuPpZqUVg==",
+    "iv": "fZlh7UZYfFZzxt7Z",
+    "data": "jDX0lvuCAU2hlSv7D3Q2A0FJd8PwjGhRY7GHxp0FfG65jMaDzGR4u+aBB67eUKAhr7RjTQ6GimPxIsdqPiFZjqYzI9Aa63a+zQs="
+  }
+}
