@@ -1,0 +1,17 @@
+/* App tokens remain the single palette for Tabler core and custom learning views. */
+@import url('./study-tokens.css');
+:root, [data-bs-theme="dark"] {
+  --tblr-font-sans-serif:var(--font-ui);
+  --tblr-body-font-size:1rem;
+  --tblr-body-bg:var(--bg); --tblr-body-color:var(--ink);
+  --tblr-primary:var(--accent); --tblr-primary-fg:var(--accent-ink);
+  --tblr-primary-darken:var(--teal-dark);
+  --tblr-secondary:var(--muted); --tblr-link-color:var(--accent);
+  --tblr-border-color:var(--line); --tblr-bg-surface:var(--paper);
+  --tblr-bg-surface-secondary:var(--bg);
+  --tblr-bg-surface-tertiary:var(--bg);
+  --tblr-bg-forms:var(--paper); --tblr-bg-forms-disabled:var(--bg);
+  --tblr-tertiary:var(--muted);
+  --tblr-border-radius:var(--r-btn); --tblr-border-radius-lg:var(--r-card);
+  --tblr-card-border-radius:var(--r-card);
+}
