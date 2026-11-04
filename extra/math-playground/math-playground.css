@@ -1,0 +1,223 @@
+/* 數學遊樂場：畫在主頁「額外學習」右側（.mp-app）與左側控制列（.mp-controls）。
+   斷點用容器查詢，依內容區寬度排版；顏色用 styles/study-tokens.css 的主站配色（深色模式跟著主站），
+   圖解的 SVG 用課程自己的固定色盤，所以畫布維持淺色。 */
+
+/* 分類色：每一類課程的主色與淡色 */
+.mp-app, .mp-controls { --t:var(--math); --t-soft:var(--math-soft); }
+.track-basic, .track-numerical { --t:var(--zh); --t-soft:var(--zh-soft); }
+.track-calculus, .track-foundations { --t:var(--amber); --t-soft:var(--sun-soft); }
+.track-linear, .track-optimization { --t:var(--green); --t-soft:var(--green-soft); }
+.track-engineering, .track-discrete, .track-signals { --t:var(--math); --t-soft:var(--math-soft); }
+.track-llm, .track-probability, .track-structures { --t:var(--violet); --t-soft:var(--violet-soft); }
+.track-map { --t:var(--accent); --t-soft:var(--accent-soft); }
+
+/* ---------- 左側控制列：學習地圖、投影模式、12 類 66 課 ---------- */
+.mp-controls h2 { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.mp-controls .topic-count { padding:2px 8px; border-radius:8px; background:var(--math-soft); color:var(--math); font-size:.8rem; font-weight:700; }
+.mp-controls .mp-tracks { display:grid; gap:var(--space-control); }
+.mp-controls details { border:1px solid var(--line); border-radius:14px; background:var(--bg); }
+.mp-controls summary { display:flex; align-items:center; gap:8px; padding:10px 12px; cursor:pointer; color:var(--t); font-size:.95rem; font-weight:700; line-height:1.4; }
+.mp-controls summary small { margin-left:auto; color:var(--muted); font-size:.8rem; font-weight:400; }
+.mp-controls details[open] summary { border-bottom:1px dashed var(--line); }
+.mp-controls .track-lessons { display:grid; gap:4px; padding:6px; }
+.mp-controls .lesson-tab { position:relative; display:flex; align-items:center; gap:9px; width:100%; min-height:52px; padding:6px 30px 6px 8px; border:1px solid transparent; border-radius:var(--r-btn); background:transparent; color:var(--ink); text-align:left; cursor:pointer; }
+.mp-controls .lesson-tab:hover { background:var(--accent-soft); }
+.mp-controls .lesson-tab[aria-pressed="true"] { background:var(--accent); color:var(--accent-ink); }
+.mp-controls .lesson-tab.map-tab { border-color:var(--line); background:var(--paper); }
+.mp-controls .lesson-tab.map-tab[aria-pressed="true"] { border-color:var(--accent); background:var(--accent); }
+.mp-controls .tab-symbol { display:grid; place-items:center; flex:none; width:32px; height:32px; border-radius:9px; background:var(--t-soft); color:var(--t); font-size:17px; font-weight:800; overflow:hidden; white-space:nowrap; letter-spacing:-.06em; }
+.mp-controls .tab-symbol.long { font-size:11px; }
+.mp-controls .lesson-tab > span:last-child { font-size:.9rem; font-weight:700; line-height:1.35; }
+.mp-controls .lesson-tab small { display:block; margin-top:2px; font-size:.8rem; font-weight:400; opacity:.75; }
+.mp-controls .tab-number { position:absolute; right:8px; bottom:6px; font-size:.7rem; opacity:.5; }
+
+/* 投影模式：收起主站頁首與左側，內容放大 */
+body.mp-projector .wrap > header.top, body.mp-projector .wrap .side { display:none; }
+body.mp-projector .wrap .layout { grid-template-columns:minmax(0,1fr); }
+
+/* ---------- 內容區 ---------- */
+.mp-app { container-type:inline-size; color:var(--ink); font-size:15px; line-height:1.6; }
+.mp-app *, .mp-app *::before, .mp-app *::after { box-sizing:border-box; }
+.mp-app button, .mp-app input, .mp-app select { font:inherit; color:inherit; }
+.mp-app button { cursor:pointer; }
+.mp-app svg { display:block; }
+.mp-app [hidden] { display:none !important; }
+.mp-app .workspace-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.mp-app .section-kicker { color:var(--t); font-size:.8rem; font-weight:700; letter-spacing:.06em; }
+.mp-app .workspace-heading h2 { margin:3px 0 0; font-size:1.6rem; line-height:1.35; letter-spacing:-.02em; }
+.mp-app .heading-actions { display:flex; flex:none; align-items:center; gap:8px; }
+.mp-app .lesson-position { padding:6px 11px; border:1px solid var(--line); border-radius:8px; color:var(--muted); font-size:.8rem; letter-spacing:.12em; white-space:nowrap; }
+.mp-app .projector-toggle { min-height:40px; padding:6px 12px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--paper); white-space:nowrap; }
+.mp-app .projector-toggle[aria-pressed="true"] { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.mp-app .route-context { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-bottom:12px; padding:10px 14px; border:1px solid var(--line); border-radius:12px; background:var(--paper); font-size:.85rem; }
+.mp-app .route-context label { flex:none; font-weight:800; }
+.mp-app .route-context select { flex:1 1 240px; min-width:0; max-width:100%; padding:7px 10px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--bg); }
+.mp-app .route-context > span { color:var(--muted); white-space:nowrap; }
+
+.mp-app .lesson-panel { padding:20px; border:1px solid var(--line); border-radius:var(--r-card); background:var(--paper); box-shadow:var(--shadow); }
+.mp-app .lesson-intro { margin-bottom:14px; }
+.mp-app .lesson-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.mp-app .lesson-pill, .mp-app .grade-pill { display:inline-block; padding:3px 10px; border-radius:20px; background:var(--t-soft); color:var(--t); font-size:.75rem; font-weight:800; }
+.mp-app .grade-pill { background:var(--sun-soft); color:var(--amber); }
+.mp-app .lesson-intro h3 { margin:7px 0 5px; font-size:1.5rem; line-height:1.4; letter-spacing:-.02em; }
+.mp-app .lesson-intro p { max-width:75em; margin:0; color:var(--muted); font-size:14px; line-height:1.8; }
+.mp-app .prerequisite-strip { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 14px; padding:10px 12px; border:1px dashed var(--line); border-radius:10px; }
+.mp-app .prerequisite-strip > span { font-size:.75rem; font-weight:800; color:var(--muted); }
+.mp-app .prerequisite-strip > small { font-size:.8rem; color:var(--muted); }
+.mp-app .back-map { margin-left:auto; padding:0; border:0; background:none; color:var(--t); font-size:.75rem; font-weight:700; }
+.mp-app .back-map:hover { text-decoration:underline; }
+
+/* 圖解與操作 */
+.mp-app .playground-grid { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr); gap:16px; }
+.mp-app .visual-card, .mp-app .control-card { min-width:0; border:1px solid var(--line); border-radius:14px; }
+.mp-app .visual-card { display:flex; flex-direction:column; overflow:hidden; background:var(--paper); }
+.mp-app .visual-top { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px 15px 0; font-size:13px; font-weight:700; }
+.mp-app .scene-tag { padding:2px 7px; border-radius:6px; background:var(--t); color:var(--paper); font-size:10px; font-weight:800; letter-spacing:.08em; }
+.mp-app .visual-legend { padding:4px 15px 0; font-size:11px; color:var(--muted); }
+.mp-app .chart { flex:0 0 auto; width:100%; height:auto; margin-top:8px; background:#fffefa; color:#293d43; }
+.mp-app .chart text { font-family:var(--font-ui); }
+.mp-app .chart-caption { margin-top:auto; padding:8px 14px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; line-height:1.6; }
+.mp-app .control-card { padding:16px 18px; background:var(--paper); }
+.mp-app .control-eyebrow { color:var(--t); font-size:10px; font-weight:800; letter-spacing:.1em; }
+.mp-app .control-card h4 { margin:3px 0 9px; font-size:16px; letter-spacing:-.02em; }
+.mp-app .control-card label, .mp-app .choice-label { display:block; margin:10px 0 4px; font-size:14px; font-weight:600; line-height:1.8; }
+.mp-app .control-card label strong { font-size:17px; }
+.mp-app .control-card label small { font-weight:400; color:var(--muted); }
+.mp-app input[type="range"] { width:100%; min-height:20px; margin:3px 0; accent-color:var(--t); cursor:pointer; }
+.mp-app .choice-group { display:flex; flex-wrap:wrap; gap:5px; }
+.mp-app .choice-group button { padding:5px 10px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--paper); font-size:12px; font-weight:600; }
+.mp-app .choice-group button:hover { border-color:var(--t); }
+.mp-app .choice-group button[aria-pressed="true"] { background:var(--t); border-color:var(--t); color:var(--paper); }
+.mp-app .play-button { margin-top:10px; padding:6px 12px; border:1px solid var(--t); border-radius:8px; background:var(--t-soft); color:var(--t); font-size:12px; font-weight:800; }
+.mp-app .play-button[aria-pressed="true"] { background:var(--t); color:var(--paper); }
+.mp-app .result-card { margin-top:12px; padding:12px 14px; border-radius:10px; background:var(--t-soft); }
+.mp-app .result-card > span { display:block; font-size:11px; font-weight:700; }
+.mp-app .result-card > strong { display:block; margin:2px 0; color:var(--t); font-size:24px; line-height:1.4; letter-spacing:-.03em; overflow-wrap:anywhere; }
+.mp-app .result-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.65; }
+.mp-app .simple-explain { margin:10px 0 0; color:var(--muted); font-size:13px; line-height:1.65; }
+
+/* 科技應用、重點、教學建議、正式數學 */
+.mp-app .tech-strip { margin-top:14px; }
+.mp-app .tech-strip h4, .mp-app .map-paths h4, .mp-app .classroom-tips h4 { margin:0 0 8px; font-size:15px; }
+.mp-app .tech-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:8px; }
+.mp-app .tech-item { display:flex; align-items:flex-start; gap:9px; padding:9px 11px; border:1px solid var(--line); border-radius:11px; background:var(--paper); }
+.mp-app .tech-icon { font-size:20px; line-height:1.2; }
+.mp-app .tech-item b { font-size:13px; }
+.mp-app .tech-item p { margin:2px 0 0; color:var(--muted); font-size:14px; line-height:1.8; }
+.mp-app .real-world { display:flex; align-items:center; gap:10px; margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); }
+.mp-app .real-world-icon { display:grid; place-items:center; flex:none; width:33px; height:33px; border-radius:9px; background:var(--t-soft); color:var(--t); font-size:15px; font-weight:800; overflow:hidden; }
+.mp-app .real-world-icon.long { font-size:11px; }
+.mp-app .real-world strong { font-size:14px; }
+.mp-app .real-world p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+.mp-app details.teach-box, .mp-app details.formal-math { margin-top:10px; padding:0 14px; border:1px solid var(--line); border-radius:11px; background:var(--bg); }
+.mp-app details summary { padding:10px 0; cursor:pointer; color:var(--t); font-size:13px; font-weight:800; }
+.mp-app details[open] summary { margin-bottom:8px; border-bottom:1px dashed var(--line); }
+.mp-app details.teach-box { background:var(--sun-soft); }
+.mp-app .teach-box summary { color:var(--amber); }
+.mp-app .teach-row { display:grid; grid-template-columns:96px minmax(0,1fr); gap:10px; padding:6px 0; border-bottom:1px solid var(--line); font-size:14px; line-height:1.8; }
+.mp-app .teach-row:last-child { margin-bottom:8px; border-bottom:0; }
+.mp-app .teach-row b { color:var(--amber); font-size:12px; }
+.mp-app .teach-row ol { margin:0; padding-left:20px; }
+.mp-app .formal-math p { margin:8px 0; color:var(--muted); font-size:14px; line-height:1.8; overflow-wrap:anywhere; }
+.mp-app .formal-math .formula { padding:12px; border-radius:8px; background:var(--math-soft); color:var(--ink); font-family:"Cambria Math", var(--font-ui); font-size:17px; }
+
+/* 小挑戰 */
+.mp-app .quiz-card { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:12px; padding:13px 20px; border:1px solid var(--line); border-radius:14px; background:var(--green-soft); }
+.mp-app .quiz-card > div:first-child { flex:1; min-width:0; }
+.mp-app .quiz-kicker { color:var(--green); font-size:10px; font-weight:800; letter-spacing:.12em; }
+.mp-app .quiz-item + .quiz-item { margin-top:8px; padding-top:6px; border-top:1px dashed var(--line); }
+.mp-app .quiz-card h3 { margin:4px 0 7px; font-size:15px; }
+.mp-app .quiz-options { display:flex; flex-wrap:wrap; gap:7px; }
+.mp-app .quiz-options button { padding:6px 12px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--paper); font-size:13px; font-weight:600; text-align:left; }
+.mp-app .quiz-options button:hover { border-color:var(--green); }
+.mp-app .quiz-options button.correct { background:var(--green-soft); border-color:var(--green); color:var(--green); }
+.mp-app .quiz-options button.incorrect { background:var(--red-soft); border-color:var(--red); color:var(--red); }
+.mp-app .quiz-feedback { min-height:17px; margin:6px 0 0; font-size:13px; font-weight:600; }
+.mp-app .quiz-graphic { display:grid; place-items:center; flex:none; width:53px; height:53px; border-radius:50%; background:var(--paper); color:var(--green); font-size:39px; font-weight:800; transform:rotate(12deg); }
+
+/* 上下課與課程小標籤 */
+.mp-app .lesson-nav { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; }
+.mp-app .nav-step { padding:6px 11px; border:1px solid var(--line); border-radius:8px; background:var(--paper); font-size:13px; font-weight:700; }
+.mp-app .nav-step:hover { border-color:var(--ink); }
+.mp-app .related { display:flex; flex-wrap:wrap; align-items:center; gap:5px; color:var(--muted); font-size:12px; }
+.mp-app .concept-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border:0; border-radius:20px; background:var(--t-soft); color:var(--t); font-size:12px; font-weight:700; white-space:nowrap; }
+.mp-app .concept-chip:hover { outline:1px solid var(--t); }
+.mp-app .concept-chip span { font-size:11px; }
+
+/* 學習地圖 */
+.mp-app .course-catalog { margin-top:20px; }
+.mp-app .course-catalog > h4 { margin:0 0 10px; font-size:16px; }
+.mp-app .catalog-controls { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:12px; }
+.mp-app .catalog-controls label { min-width:0; font-size:13px; font-weight:700; }
+.mp-app .catalog-controls input, .mp-app .catalog-controls select { display:block; width:100%; min-width:0; margin-top:5px; padding:10px 12px; border:1px solid var(--line); border-radius:var(--r-btn); background:var(--bg); font-size:max(16px, 1em); }
+.mp-app #catalog-count { margin:10px 0 0; color:var(--muted); font-size:13px; }
+.mp-app #catalog-empty { padding:16px; border:1px dashed var(--line); border-radius:10px; color:var(--muted); font-size:13px; }
+.mp-app .track-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:12px; margin-top:14px; }
+.mp-app .track-card { padding:13px 14px; border:1px solid var(--line); border-top:4px solid var(--t); border-radius:14px; background:var(--paper); }
+.mp-app .track-head { display:flex; align-items:center; gap:9px; }
+.mp-app .track-icon { font-size:24px; }
+.mp-app .track-card h4 { margin:0; color:var(--t); font-size:15px; }
+.mp-app .track-card small { color:var(--muted); font-size:12px; }
+.mp-app .track-card p { margin:7px 0 9px; color:var(--muted); font-size:13px; line-height:1.6; }
+.mp-app .track-lessons { display:flex; flex-wrap:wrap; gap:5px; }
+.mp-app .map-paths, .mp-app .classroom-tips { margin-top:14px; padding:14px 16px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+.mp-app .map-help { margin:0 0 10px; color:var(--muted); font-size:13px; }
+.mp-app .path-row { display:grid; grid-template-columns:200px minmax(0,1fr); align-items:center; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.mp-app .path-row:last-child { border-bottom:0; }
+.mp-app .path-name { font-size:13px; font-weight:800; }
+.mp-app .path-name small { display:block; margin-top:4px; color:var(--muted); font-size:12px; font-weight:400; line-height:1.6; }
+.mp-app .path-start { display:inline-block; margin-top:7px; padding:5px 9px; border:1px solid var(--line); border-radius:7px; background:var(--bg); font-size:12px; }
+.mp-app .path-start:hover { border-color:var(--ink); }
+.mp-app .path-steps { display:flex; flex-wrap:wrap; align-items:center; gap:4px; }
+.mp-app .path-arrow { color:var(--muted); font-size:12px; }
+.mp-app .classroom-tips ol { margin:0; padding-left:20px; font-size:14px; line-height:1.8; }
+
+/* 投影模式放大 */
+.mp-app.projector { font-size:17px; }
+.mp-app.projector .workspace-heading h2 { font-size:34px; }
+.mp-app.projector .lesson-intro h3 { font-size:30px; }
+.mp-app.projector .lesson-intro p { font-size:19px; }
+.mp-app.projector .playground-grid { grid-template-columns:minmax(0,1.9fr) minmax(300px,1fr); }
+.mp-app.projector .control-card label, .mp-app.projector .choice-label { font-size:16px; }
+.mp-app.projector .choice-group button { padding:7px 13px; font-size:15px; }
+.mp-app.projector .result-card > strong { font-size:32px; }
+.mp-app.projector .result-card p, .mp-app.projector .simple-explain, .mp-app.projector .chart-caption, .mp-app.projector .visual-top { font-size:15px; }
+.mp-app.projector .route-context, .mp-app.projector .concept-chip { font-size:15px; }
+.mp-app.projector .tech-item b, .mp-app.projector .real-world strong { font-size:16px; }
+.mp-app.projector .tech-item p, .mp-app.projector .teach-row, .mp-app.projector .formal-math p { font-size:15px; }
+.mp-app.projector .quiz-card h3 { font-size:18px; }
+.mp-app.projector .quiz-options button { font-size:15px; }
+
+/* 內容區窄的時候 */
+@container (max-width: 900px) {
+  .mp-app .playground-grid, .mp-app.projector .playground-grid { grid-template-columns:minmax(0,1fr); }
+  .mp-app .lesson-intro h3 { font-size:1.35rem; }
+  .mp-app .quiz-graphic { display:none; }
+  .mp-app .path-row { grid-template-columns:minmax(0,1fr); }
+}
+@container (max-width: 560px) {
+  .mp-app .workspace-heading { flex-wrap:wrap; }
+  .mp-app .workspace-heading h2 { font-size:1.25rem; }
+  .mp-app.projector .workspace-heading h2 { font-size:24px; }
+  .mp-app .lesson-panel { padding:14px 12px; }
+  .mp-app .lesson-intro h3, .mp-app.projector .lesson-intro h3 { font-size:1.2rem; }
+  .mp-app .visual-top { padding:10px 8px 0; }
+  .mp-app .control-card { padding:12px; }
+  .mp-app .result-card > strong { font-size:21px; }
+  .mp-app .teach-row { grid-template-columns:minmax(0,1fr); gap:2px; }
+  .mp-app .quiz-card { padding:11px; }
+  .mp-app .quiz-options { flex-direction:column; }
+  .mp-app .tech-grid, .mp-app .catalog-controls, .mp-app .track-grid { grid-template-columns:minmax(0,1fr); }
+  .mp-app .route-context { gap:6px; padding:9px 10px; }
+  .mp-app .route-context select { order:2; flex-basis:100%; width:100%; }
+  .mp-app .route-context > span { margin-left:auto; }
+  .mp-app .prerequisite-strip { gap:5px; padding:8px; }
+  .mp-app .back-map { margin-left:0; }
+  .mp-app .map-paths, .mp-app .classroom-tips { padding:12px 10px; }
+  .mp-app .path-row { padding:12px 0; }
+  .mp-app .concept-chip { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+}
+@media print {
+  .mp-app .lesson-nav, .mp-app .play-button, .mp-app .projector-toggle { display:none; }
+  .mp-app details { display:block; }
+}
