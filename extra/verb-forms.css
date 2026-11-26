@@ -1,0 +1,38 @@
+.verb-page, .verb-content, .verb-list { display: grid; gap: 16px; min-width: 0; }
+@media (min-width: 1200px) { .verb-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+.verb-page .sheet-head h2, .verb-page .panel h3 { margin: 0; }
+.verb-guide { border-top: 1px solid var(--line); padding-top: 10px; }
+.verb-guide summary { cursor: pointer; color: var(--accent); }
+.verb-guide a { color: var(--accent); }
+.verb-usage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 12px 0; }
+.verb-usage > div { padding: 12px; background: var(--bg); border-radius: 14px; }
+.verb-usage p { margin: 6px 0 0; }
+.verb-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.verb-filters .field { flex: 1 1 180px; min-width: 0; }
+.verb-page input, .verb-page select { width: 100%; min-width: 0; font: inherit; color: var(--ink); background: var(--bg); border: 2px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.verb-page input:focus-visible, .verb-page select:focus-visible, .verb-guide summary:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+.verb-card-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.verb-card-top h3 { margin-right: auto !important; }
+.wrap .verb-card { gap: 8px; }
+.verb-english { font-family: var(--font-en); overflow-wrap: anywhere; }
+.verb-card h3, .verb-prompt b { font-size: 1.45rem; }
+.verb-meaning { margin: 4px 0 12px; }
+.verb-forms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.verb-forms > div { border-radius: 12px; padding: 10px; background: var(--bg); min-width: 0; }
+.verb-forms dt { font-size: .83rem; color: var(--muted); }
+.verb-forms dd { margin: 4px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 1.12rem; }
+.verb-note { margin: 10px 0 0; }
+.verb-answer-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+.verb-question > .btn { margin: 6px 8px 0 0; }
+.verb-feedback { border: 2px solid var(--line); border-radius: 16px; padding: 12px; margin: 16px 0; }
+.verb-feedback p { margin: 0 0 10px; }
+.verb-feedback.is-correct { border-color: var(--green); background: var(--green-soft); }
+.verb-feedback.is-wrong { border-color: var(--red); background: var(--red-soft); }
+.verb-result > .verb-card { margin-top: 14px; box-shadow: none; }
+@media (max-width: 560px) {
+  .verb-usage { grid-template-columns: 1fr; }
+  .verb-forms { gap: 6px; }
+  .verb-forms > div { padding: 8px 6px; }
+  .verb-forms dd { font-size: 1rem; }
+  .verb-answer-fields { grid-template-columns: 1fr; }
+}

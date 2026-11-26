@@ -1,0 +1,186 @@
+/* 時態樂園：畫在主頁「額外學習」右側（.tense-app）與左側控制列（.tense-controls）。
+   斷點用容器查詢，依內容區寬度排版；顏色全用 styles/study-tokens.css 的主站配色，深色模式跟著主站。 */
+
+/* ---------- 左側控制列：學習模式、16 格課程、教學筆記 ---------- */
+.tense-controls .view-switch { display:grid; grid-template-columns:1fr; padding:var(--space-control); border:1px solid var(--line); border-radius:16px; background:var(--bg); gap:var(--space-control); }
+.tense-controls .view-switch button { width:100%; min-height:46px; border:0; border-radius:var(--r-btn); padding:var(--space-control) var(--space-content); font-size:1rem; background:var(--paper); color:var(--ink); cursor:pointer; }
+.tense-controls .view-switch button[aria-pressed="true"] { color:var(--accent-ink); background:var(--accent); }
+.tense-controls .tense-matrix { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--space-content); }
+.tense-controls .tense-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-control); }
+.tense-controls .time-row-label { grid-column:1/-1; font-size:.95rem; line-height:1.5; font-weight:700; color:var(--muted); }
+.tense-controls .advanced-row .time-row-label { color:var(--amber); }
+.tense-controls .tense-row button { position:relative; min-width:0; min-height:72px; padding:24px 8px 8px; border:1px solid var(--line); border-radius:13px; background:var(--bg); color:var(--ink); cursor:pointer; text-align:left; }
+.tense-controls .advanced-row button { background:var(--sun-soft); }
+.tense-controls .tense-row button:hover { background:var(--accent-soft); }
+.tense-controls .tense-row button strong { display:block; font-size:.9rem; line-height:1.4; font-weight:400; }
+.tense-controls .matrix-level { position:absolute; top:4px; right:8px; font-size:.75rem; line-height:1.5; color:var(--muted); }
+.tense-controls .tense-row button[aria-pressed="true"] { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.tense-controls .tense-row button[aria-pressed="true"] .matrix-level { color:var(--accent-ink); }
+.tense-controls .guide-button { width:100%; }
+
+/* ---------- 內容區 ---------- */
+.tense-app { container-type:inline-size; --radius:20px; color:var(--ink); font-size:1rem; line-height:1.65; }
+.tense-app *, .tense-app *::before, .tense-app *::after { box-sizing:border-box; }
+.tense-app button { font:inherit; cursor:pointer; transition:background .18s, transform .18s, border-color .18s; }
+.tense-app button:disabled { cursor:default; }
+.tense-app button:not(:disabled):active { transform:translateY(2px); }
+.tense-app [hidden] { display:none !important; }
+.tense-app .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* 看圖學習 */
+.tense-app .lesson-section, .tense-app .practice-card { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+.tense-app .lesson-section { overflow:hidden; }
+.tense-app .lesson-card { display:grid; grid-template-columns:38% minmax(0,1fr); }
+.tense-app .scene-side { display:flex; flex-direction:column; padding:var(--space-section); background:var(--accent-soft); }
+.tense-app .scene-toolbar { display:flex; flex-direction:column; align-items:flex-start; flex-wrap:wrap; gap:var(--space-control); margin-bottom:var(--space-content); }
+.tense-app .scene-label { padding:4px var(--space-control); border-radius:var(--r-btn); background:var(--paper); color:var(--accent); font-size:.875rem; font-weight:700; }
+.tense-app .time-label { padding:4px 8px; border:1px solid var(--line); border-radius:var(--r-btn); color:var(--muted); font-size:.85rem; font-weight:700; }
+.tense-app .scene-art { flex-shrink:0; width:100%; aspect-ratio:1; border-radius:14px; overflow:hidden; background-image:url("assets/life-scenes.png"); background-size:200% 200%; background-repeat:no-repeat; }
+.tense-app .scene-breakfast { background-position:left top; }
+.tense-app .scene-soccer { background-position:right top; }
+.tense-app .scene-dog { background-position:left bottom; }
+.tense-app .scene-school { background-position:right bottom; }
+.tense-app #lesson-art { width:min(100%, 300px); margin:0 auto; }
+.tense-app .scene-caption { display:flex; align-items:flex-start; gap:8px; margin-top:var(--space-content); font-size:1.05rem; line-height:1.8; font-weight:600; }
+.tense-app .caption-dot { flex-shrink:0; width:7px; height:7px; margin-top:12px; border-radius:50%; background:var(--accent); }
+.tense-app .scene-picker { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-control); margin-top:var(--space-content); }
+.tense-app .scene-picker button { min-height:46px; padding:8px 0; border:1px solid var(--line); border-radius:12px; background:var(--paper); color:var(--ink); font-size:.875rem; }
+.tense-app .scene-picker button:hover { border-color:var(--accent); }
+.tense-app .scene-picker button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); }
+.tense-app .explanation-side { min-width:0; padding:var(--space-section); font-size:1.05rem; overflow-wrap:anywhere; }
+.tense-app .lesson-identity { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:10px; }
+.tense-app .lesson-kicker { font-size:.75rem; letter-spacing:.15em; font-weight:800; color:var(--accent); line-height:1.65; }
+.tense-app .level-badge { flex-shrink:0; padding:1px 7px; border-radius:5px; background:var(--accent-soft); color:var(--accent); font-size:.75rem; font-weight:700; }
+.tense-app .lesson-name { margin:8px 0 0; font-size:.875rem; font-weight:750; color:var(--accent); }
+.tense-app .explanation-side h3 { margin:8px 0 14px; font-size:1.4rem; line-height:1.6; font-weight:800; letter-spacing:-.015em; color:var(--ink); }
+.tense-app .lesson-description { margin:0 0 12px; line-height:1.9; color:var(--muted); }
+.tense-app .sentence-card { padding:var(--space-content); border:1px solid var(--line); border-radius:16px; background:var(--accent-soft); }
+.tense-app .sentence-label { display:flex; align-items:center; justify-content:space-between; font-size:.75rem; letter-spacing:.035em; color:var(--muted); }
+.tense-app .listen { display:flex; align-items:center; gap:5px; padding:3px; border:0; background:transparent; color:var(--accent); font-size:.875rem; }
+.tense-app .listen:hover { text-decoration:underline; }
+.tense-app .english-sentence { margin:8px 0 4px; font-family:var(--font-en); font-size:1.6rem; line-height:1.6; font-weight:750; color:var(--ink); }
+.tense-app .english-sentence mark { padding:2px 4px; border-radius:5px; background:var(--sun-soft); color:var(--accent); box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.tense-app .chinese-sentence { margin:0; font-size:1.05rem; color:var(--muted); }
+.tense-app .formula-box, .tense-app .lesson-timeline { margin-top:var(--space-content); padding:var(--space-content); border:1px solid var(--line); border-radius:14px; background:var(--bg); }
+.tense-app .formula-box > span { font-size:.875rem; font-weight:700; color:var(--muted); }
+.tense-app .formula-box > p { margin:5px 0 0; font-size:1.05rem; line-height:1.9; }
+.tense-app .formula-box strong { color:var(--accent); }
+.tense-app .formula-box p.formula-detail { margin-top:4px; font-size:.875rem; line-height:1.65; color:var(--muted); }
+.tense-app .timeline-heading { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:4px; }
+.tense-app .timeline-heading strong { flex-shrink:0; font-size:.875rem; }
+.tense-app .timeline-heading > span { font-size:.75rem; color:var(--muted); }
+.tense-app .timeline-track { position:relative; height:40px; margin-top:7px; }
+.tense-app .timeline-track::before { content:""; position:absolute; left:3%; right:3%; top:20px; border-top:2px solid var(--line); }
+.tense-app .timeline-range { position:absolute; top:16px; height:10px; border-radius:5px; background:var(--accent); }
+.tense-app .timeline-point { position:absolute; top:15px; width:12px; height:12px; border:2px solid var(--paper); border-radius:50%; background:var(--accent); transform:translateX(-50%); }
+.tense-app .timeline-reference { position:absolute; top:5px; height:31px; border-left:2px dashed var(--amber); }
+.tense-app .timeline-labels { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; font-size:.875rem; line-height:1.5; text-align:center; }
+.tense-app .timeline-labels span:first-child { text-align:left; }
+.tense-app .timeline-labels span:last-child { text-align:right; }
+.tense-app .lesson-timeline > p { margin:7px 0 0; font-size:.875rem; line-height:1.65; color:var(--muted); }
+.tense-app .clue-box { display:flex; gap:10px; margin-top:var(--space-content); padding:var(--space-content); border-radius:14px; background:var(--sun-soft); color:var(--amber); }
+.tense-app .clue-box > span { font-size:1.6875rem; line-height:1.3; }
+.tense-app .clue-box strong { font-size:.875rem; }
+.tense-app .clue-box p { margin:2px 0 0; font-size:.875rem; color:var(--muted); }
+.tense-app .lesson-footer { display:flex; align-items:center; padding:var(--space-section); border-top:1px solid var(--line); background:var(--paper); }
+.tense-app .lesson-actions { display:flex; align-items:center; gap:var(--space-control); }
+.tense-app .lesson-actions > span { font-size:.875rem; color:var(--muted); }
+
+/* 按鈕 */
+.tense-app .primary-button { min-height:46px; padding:10px 22px; border:1px solid var(--accent); border-radius:12px; background:var(--accent); color:var(--accent-ink); font-size:1rem; font-weight:750; }
+.tense-app .primary-button:hover { filter:brightness(1.08); }
+.tense-app .primary-button:disabled { opacity:.5; }
+.tense-app .outline-button { min-height:44px; padding:9px 16px; border:1px solid var(--line); border-radius:12px; background:var(--paper); color:var(--accent); font-size:.875rem; font-weight:700; }
+.tense-app .outline-button:hover { background:var(--accent-soft); }
+.tense-app .text-button { padding:8px; border:0; background:transparent; color:var(--muted); font-size:.875rem; }
+.tense-app .text-button:hover { text-decoration:underline; }
+
+/* 互動練習 */
+.tense-app .practice-card { padding:var(--space-section); }
+.tense-app .practice-top { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 0 var(--space-section); border-bottom:1px solid var(--line); }
+.tense-app .practice-top h2 { margin:2px 0 0; font-size:1.375rem; }
+.tense-app #practice-content { padding:var(--space-section) 0 0; }
+.tense-app .question-meta { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-bottom:11px; font-size:.875rem; color:var(--muted); }
+.tense-app .question-meta strong { color:var(--accent); }
+.tense-app .progress-track { height:5px; margin-bottom:22px; border-radius:10px; background:var(--accent-soft); overflow:hidden; }
+.tense-app .progress-track > span { display:block; height:100%; border-radius:10px; background:var(--accent); transition:width .3s; }
+.tense-app .question-layout { display:grid; grid-template-columns:26% minmax(0,1fr); gap:var(--space-section); }
+.tense-app .question-art { align-self:start; border:1px solid var(--line); }
+.tense-app .question-content h4 { margin:0 0 8px; font-size:1.25rem; line-height:1.7; }
+.tense-app .question-context { margin:0 0 11px; font-size:.9375rem; color:var(--muted); }
+.tense-app .question-sentence { margin:12px 0 17px; font-family:var(--font-en); font-size:1.4375rem; line-height:1.8; font-weight:700; }
+.tense-app .blank { padding:0 8px; border-bottom:2px dashed var(--accent); color:var(--accent); letter-spacing:.025em; }
+.tense-app .answer-options { display:grid; grid-template-columns:1fr; gap:var(--space-control); }
+.tense-app .answer-option { display:flex; align-items:center; gap:10px; min-height:54px; padding:var(--space-content); border:1px solid var(--line); border-radius:14px; background:var(--paper); color:var(--ink); font-family:var(--font-en); font-size:1.1rem; line-height:1.55; text-align:left; overflow-wrap:anywhere; }
+.tense-app .answer-option > span { display:grid; place-items:center; flex-shrink:0; width:23px; height:23px; border:1px solid var(--line); border-radius:6px; font-size:.75rem; color:var(--muted); }
+.tense-app .answer-option:hover:not(:disabled) { background:var(--accent-soft); border-color:var(--accent); }
+.tense-app .answer-option.correct { background:var(--green-soft); border-color:var(--green); color:var(--green); }
+.tense-app .answer-option.incorrect { background:var(--red-soft); border-color:var(--red); color:var(--red); }
+.tense-app .answer-option:disabled:not(.correct):not(.incorrect) { opacity:.55; }
+.tense-app .sentence-slot { display:flex; flex-wrap:wrap; align-items:center; gap:7px; min-height:63px; margin:15px 0; padding:10px; border:1px dashed var(--line); border-radius:10px; background:var(--bg); }
+.tense-app .sentence-slot > span { font-size:.875rem; color:var(--muted); }
+.tense-app .word-bank { display:flex; flex-wrap:wrap; gap:8px; }
+.tense-app .word-chip { padding:8px 14px; border:1px solid var(--line); border-bottom-width:3px; border-radius:8px; background:var(--paper); color:var(--ink); font-family:var(--font-en); font-size:1.0625rem; font-weight:600; overflow-wrap:anywhere; }
+.tense-app .word-chip:disabled { opacity:.35; }
+.tense-app .word-chip:hover:not(:disabled) { border-color:var(--accent); background:var(--accent-soft); }
+.tense-app .sentence-slot .word-chip { padding:6px 10px; font-size:1rem; }
+.tense-app .build-actions { display:flex; align-items:center; gap:12px; margin-top:14px; }
+.tense-app .feedback { margin-top:var(--space-content); padding:var(--space-content); border-radius:10px; background:var(--green-soft); color:var(--green); font-size:.9375rem; overflow-wrap:anywhere; }
+.tense-app .feedback.wrong { background:var(--sun-soft); color:var(--amber); }
+.tense-app .feedback strong { display:block; margin-bottom:4px; }
+.tense-app .feedback p { margin:0; }
+.tense-app .question-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; margin-top:var(--space-content); }
+.tense-app .question-bottom > span { font-size:.875rem; color:var(--muted); }
+.tense-app .question-bottom .primary-button { margin-left:auto; }
+.tense-app .practice-result { padding:18px 5px 10px; text-align:center; }
+.tense-app .result-star { display:inline-grid; place-items:center; width:70px; height:70px; border-radius:22px; background:var(--sun-soft); color:var(--accent); font-size:2.625rem; transform:rotate(-8deg); }
+.tense-app .practice-result h4 { margin:16px 0 8px; font-size:1.5625rem; }
+.tense-app .practice-result > p { margin:0 0 20px; color:var(--muted); }
+.tense-app .result-score { margin:18px 0; font-size:2.625rem; font-weight:850; line-height:1.3; color:var(--accent); }
+.tense-app .result-score small { font-size:1.1875rem; color:var(--muted); }
+.tense-app .result-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+.tense-app .review-list { max-width:750px; margin:22px auto; padding:18px; border-radius:12px; background:var(--bg); text-align:left; }
+.tense-app .review-list h5 { margin:0 0 12px; font-size:1rem; }
+.tense-app .review-item { padding:12px 0; border-top:1px solid var(--line); overflow-wrap:anywhere; }
+.tense-app .review-item:last-child { padding-bottom:0; }
+.tense-app .review-item p { margin:4px 0; font-size:.875rem; }
+.tense-app .review-item strong { font-size:1.0625rem; color:var(--accent); }
+
+/* 教學筆記 */
+.tense-app dialog { width:min(720px, calc(100% - 32px)); max-height:calc(100dvh - 48px); padding:22px; border:1px solid var(--line); border-radius:20px; background:var(--paper); color:var(--ink); font-family:var(--font-ui); line-height:1.9; box-shadow:0 18px 80px #16394530; }
+.tense-app dialog::backdrop { background:#16394580; }
+.tense-app .guide-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.tense-app .guide-heading h2 { margin:0; font-size:1.25rem; }
+.tense-app .guide-heading button { flex-shrink:0; }
+.tense-app .tip-details { margin-top:16px; border:1px solid var(--line); border-radius:11px; background:var(--sun-soft); font-size:.875rem; }
+.tense-app .tip-details summary { padding:13px 18px; cursor:pointer; font-weight:650; }
+.tense-app .tip-details summary > span { margin-right:8px; color:var(--amber); }
+.tense-app .tip-details > div { padding:0 20px 18px; line-height:1.9; color:var(--muted); }
+.tense-app .source-notes { margin-top:16px; font-size:.875rem; line-height:1.8; color:var(--muted); }
+.tense-app .source-notes summary { cursor:pointer; font-weight:650; color:var(--accent); }
+.tense-app .source-notes a { color:inherit; text-decoration:underline; text-underline-offset:3px; }
+.tense-app .source-notes ul { padding-left:22px; }
+.tense-app .source-notes li { margin:7px 0; }
+
+/* 內容區窄的時候（平板直放、手機） */
+@container (max-width: 850px) {
+  .tense-app .question-layout { grid-template-columns:155px minmax(0,1fr); }
+}
+@container (max-width: 640px) {
+  .tense-app .lesson-card { display:block; }
+  .tense-app .scene-toolbar { flex-direction:row; align-items:center; }
+  .tense-app #lesson-art { max-width:260px; }
+  .tense-app .scene-caption { max-width:300px; margin-inline:auto; }
+  .tense-app .scene-picker { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .tense-app .explanation-side h3 { font-size:1.5rem; }
+  .tense-app .lesson-actions { width:100%; gap:10px; }
+  .tense-app .lesson-actions .primary-button { flex:1; }
+  .tense-app .practice-top { flex-direction:column; align-items:flex-start; gap:12px; }
+  .tense-app .question-layout { grid-template-columns:minmax(0,1fr); gap:14px; }
+  .tense-app .question-art { width:145px; height:145px; justify-self:center; }
+  .tense-app .sentence-slot { min-height:80px; }
+  .tense-app .practice-result h4 { font-size:1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tense-app *, .tense-app *::before, .tense-app *::after { transition:none !important; animation:none !important; }
+}
